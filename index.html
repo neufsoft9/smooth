@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriAsistente Maka - Tu Guía de Suplementos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chat-container {
+            height: calc(100vh - 180px);
+            scroll-behavior: smooth;
+        }
+        .bot-message {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .user-message {
+            animation: slideIn 0.3s ease-in-out;
+        }
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #6b7280;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto max-w-md h-screen flex flex-col">
+        <!-- Header with CTA -->
+        <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-b-xl shadow-md relative">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3">
+                    <i class="fas fa-leaf text-blue-500 text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold">NutriAsistente Maka</h1>
+                    <p class="text-xs opacity-80">Tu guía experta en suplementos</p>
+                </div>
+            </div>
+            <a href="https://www.tiendasmaka.com/" target="_blank" 
+               class="absolute right-4 top-4 bg-white text-blue-600 text-xs font-bold py-1 px-3 rounded-full flex items-center hover:bg-blue-50 transition">
+                <i class="fas fa-store mr-1"></i> Visitar Tienda
+            </a>
+        </header>
+
+        <!-- Chat Container -->
+        <div class="chat-container overflow-y-auto p-4 flex-1">
+            <div class="bot-message mb-4 flex">
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-robot text-blue-500"></i>
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
+                    <p class="text-gray-800">¡Hola! Soy tu asistente de suplementos de <span class="font-bold text-blue-500">Tienda Maka</span>. ¿Qué producto necesitas hoy?</p>
+                    <div class="mt-2 text-xs text-gray-500">
+                        <p>Ejemplos: "Proteína para aumentar masa", "Vitaminas para energía", "Quemadores naturales"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area with Quick Suggestions -->
+        <div class="bg-white p-4 border-t border-gray-200">
+            <div class="flex flex-wrap gap-2 mb-2">
+                <button onclick="quickQuestion('Proteína vegana')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Proteína vegana</button>
+                <button onclick="quickQuestion('Quemador de grasa')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Quemador de grasa</button>
+                <button onclick="quickQuestion('Vitaminas para energía')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Vitaminas</button>
+                <button onclick="quickQuestion('Pre-entreno')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Pre-entreno</button>
+            </div>
+            <div class="flex items-center">
+                <input type="text" id="userInput" placeholder="Pregunta sobre suplementos..." 
+                    class="flex-1 border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button id="sendBtn" class="ml-2 bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-blue-600 transition">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced knowledge base with Tienda Maka products
+        const knowledgeBase = {
+            "proteína": {
+                response: "Tenemos excelentes opciones de proteína en Tienda Maka:",
+                products: [
+                    {
+                        name: "Proteína Vegana Maka",
+                        description: "Proteína de guisante y arroz con aminoácidos completos, ideal para veganos",
+                        benefits: ["22g de proteína por servicio", "Libre de lácteos", "Fácil digestión"],
+                        price: "$89.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/proteina-vegana-maka-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/proteina-vegana-maka/"
+                    },
+                    {
+                        name: "Whey Protein Premium",
+                        description: "Proteína de suero de leche con bajo contenido de lactosa",
+                        benefits: ["24g de proteína por scoop", "5g de BCAA", "Sabores deliciosos"],
+                        price: "$129.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/whey-protein-premium-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/whey-protein-premium/"
+                    }
+                ],
+                cta: "¿Quieres comparar más opciones de proteínas? Visita nuestra categoría especial:",
+                ctaLink: "https://www.tiendasmaka.com/categoria-producto/proteinas/"
+            },
+            "quemador": {
+                response: "Nuestros quemadores naturales más efectivos:",
+                products: [
+                    {
+                        name: "Termogénico Ultra",
+                        description: "Fórmula avanzada con cafeína natural y extractos termogénicos",
+                        benefits: ["Acelera metabolismo", "Suprime apetito", "Energía sostenida"],
+                        price: "$79.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/termogenico-ultra-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/termogenico-ultra/"
+                    },
+                    {
+                        name: "Green Burn Complex",
+                        description: "Combinación de té verde, guaraná y pimienta de cayena",
+                        benefits: ["Quema grasa natural", "Desintoxica", "Sin estimulantes fuertes"],
+                        price: "$65.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/green-burn-complex-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/green-burn-complex/"
+                    }
+                ],
+                cta: "Consulta nuestra guía completa sobre quemadores de grasa:",
+                ctaLink: "https://www.tiendasmaka.com/guia-quemadores-de-grasa/"
+            },
+            "vitamina": {
+                response: "Suplementos vitamínicos para mejorar tu energía y salud:",
+                products: [
+                    {
+                        name: "Multivitamínico Completo",
+                        description: "23 vitaminas y minerales esenciales en una cápsula",
+                        benefits: ["Refuerza sistema inmune", "Provee energía", "Piel y cabello saludable"],
+                        price: "$59.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/multivitaminico-completo-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/multivitaminico-completo/"
+                    },
+                    {
+                        name: "Vitamina D3 + K2",
+                        description: "Combinación esencial para huesos y sistema inmunológico",
+                        benefits: ["Absorción de calcio", "Salud ósea", "Regula sistema inmune"],
+                        price: "$45.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/vitamina-d3-k2-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/vitamina-d3-k2/"
+                    }
+                ],
+                cta: "Descubre nuestro test de deficiencias vitamínicas:",
+                ctaLink: "https://www.tiendasmaka.com/test-vitaminas/"
+            },
+            "pre-entreno": {
+                response: "Pre-entrenos para maximizar tu rendimiento:",
+                products: [
+                    {
+                        name: "Pre-Workout Explosive",
+                        description: "Fórmula con beta-alanina, creatina y citrulina malato",
+                        benefits: ["Energía explosiva", "Resistencia muscular", "Bombeo vascular"],
+                        price: "$99.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/pre-workout-explosive-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/pre-workout-explosive/"
+                    },
+                    {
+                        name: "Pump Extreme",
+                        description: "Sin estimulantes, enfoque en óxido nítrico y bombeo",
+                        benefits: ["Vasodilatación", "Recuperación rápida", "Sin crash energético"],
+                        price: "$85.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/pump-extreme-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/pump-extreme/"
+                    }
+                ],
+                cta: "¿No sabes cuál pre-entreno elegir? Responde nuestro cuestionario:",
+                ctaLink: "https://www.tiendasmaka.com/cuestionario-preentreno/"
+            },
+            "default": {
+                response: "En Tienda Maka tenemos los mejores suplementos para tus necesidades. Te recomiendo:",
+                products: [
+                    {
+                        name: "Pack Iniciación Fitness",
+                        description: "Todo lo que necesitas para comenzar tu transformación",
+                        benefits: ["Proteína + Creatina + Vitaminas", "Ahorra 15%", "Guía nutricional incluida"],
+                        price: "$249.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/pack-iniciacion-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/pack-iniciacion-fitness/"
+                    },
+                    {
+                        name: "Omega 3 Ultra Pure",
+                        description: "Aceite de pescado molecularmente destilado",
+                        benefits: ["Alta concentración EPA/DHA", "Corazón y cerebro", "Antiinflamatorio"],
+                        price: "$69.900",
+                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/omega-3-ultra-pure-300x300.jpg",
+                        link: "https://www.tiendasmaka.com/producto/omega-3-ultra-pure/"
+                    }
+                ],
+                cta: "Visita nuestra tienda para descubrir más productos premium:",
+                ctaLink: "https://www.tiendasmaka.com/"
+            }
+        };
+
+        // DOM elements
+        const chatContainer = document.querySelector('.chat-container');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // Add message to chat
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${isUser ? 'user-message ml-auto flex-row-reverse' : 'bot-message mb-4 flex'}`;
+            
+            const iconDiv = document.createElement('div');
+            iconDiv.className = `w-10 h-10 ${isUser ? 'bg-blue-100' : 'bg-blue-100'} rounded-full flex items-center justify-center mr-3 flex-shrink-0`;
+            
+            const icon = document.createElement('i');
+            icon.className = `fas ${isUser ? 'fa-user text-blue-500' : 'fa-robot text-blue-500'}`;
+            iconDiv.appendChild(icon);
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = `${isUser ? 'bg-blue-500 text-white' : 'bg-white'} p-3 rounded-xl shadow-sm max-w-xs`;
+            textDiv.innerHTML = `<p>${text}</p>`;
+            
+            messageDiv.appendChild(iconDiv);
+            messageDiv.appendChild(textDiv);
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Generate product card with image and better CTA
+        function createProductCard(product) {
+            return `
+                <div class="product-card bg-white p-3 rounded-xl shadow-md mb-3 border border-gray-100 overflow-hidden">
+                    <div class="flex">
+                        <div class="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden mr-3 flex-shrink-0">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-blue-600 text-sm mb-1">${product.name}</h3>
+                            <p class="text-xs text-gray-600 mb-1">${product.description}</p>
+                            <p class="text-xs font-bold text-gray-800 mb-1">${product.price}</p>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                ${product.benefits.map(benefit => `
+                                    <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">${benefit}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex mt-2 gap-2">
+                        <a href="${product.link}" target="_blank" 
+                            class="flex-1 text-center bg-blue-600 text-white text-xs py-1.5 px-2 rounded-lg hover:bg-blue-700 transition">
+                            <i class="fas fa-shopping-cart mr-1"></i> Comprar
+                        </a>
+                        <a href="https://wa.me/573125657156?text=Me%20interesa%20el%20producto%20${encodeURIComponent(product.name)}" 
+                            class="flex-1 text-center bg-green-500 text-white text-xs py-1.5 px-2 rounded-lg hover:bg-green-600 transition">
+                            <i class="fab fa-whatsapp mr-1"></i> Consultar
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create CTA section
+        function createCTA(ctaText, ctaLink) {
+            return `
+                <div class="mt-3 text-center">
+                    <p class="text-xs text-gray-600 mb-2">${ctaText}</p>
+                    <a href="${ctaLink}" target="_blank" 
+                        class="cta-button inline-block text-white text-xs font-bold py-2 px-4 rounded-full">
+                        <i class="fas fa-arrow-right mr-1"></i> Ver más
+                    </a>
+                </div>
+            `;
+        }
+
+        // Process user input
+        function processInput() {
+            const inputText = userInput.value.trim().toLowerCase();
+            if (!inputText) return;
+            
+            addMessage(inputText, true);
+            userInput.value = '';
+            
+            // Simulate typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'bot-message mb-4 flex';
+            typingIndicator.innerHTML = `
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-robot text-blue-500"></i>
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm w-24">
+                    <div class="typing-indicator flex justify-center">
+                        <span class="animate-bounce" style="animation-delay: 0s"></span>
+                        <span class="animate-bounce" style="animation-delay: 0.2s"></span>
+                        <span class="animate-bounce" style="animation-delay: 0.4s"></span>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(typingIndicator);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Simulate delay for "processing"
+            setTimeout(() => {
+                chatContainer.removeChild(typingIndicator);
+                
+                let response = knowledgeBase.default;
+                for (const key in knowledgeBase) {
+                    if (inputText.includes(key)) {
+                        response = knowledgeBase[key];
+                        break;
+                    }
+                }
+                
+                addMessage(response.response, false);
+                
+                // Create products container
+                const productsDiv = document.createElement('div');
+                productsDiv.className = 'space-y-3 mt-2';
+                response.products.forEach(product => {
+                    productsDiv.innerHTML += createProductCard(product);
+                });
+                
+                // Add CTA if exists
+                if (response.cta) {
+                    productsDiv.innerHTML += createCTA(response.cta, response.ctaLink);
+                }
+                
+                const botMessage = document.createElement('div');
+                botMessage.className = 'bot-message mb-4 flex';
+                botMessage.innerHTML = `
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                        <i class="fas fa-robot text-blue-500"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
+                        ${productsDiv.outerHTML}
+                    </div>
+                `;
+                
+                chatContainer.appendChild(botMessage);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1500);
+        }
+
+        // Quick question buttons
+        function quickQuestion(question) {
+            userInput.value = question;
+            processInput();
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', processInput);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') processInput();
+        });
+
+        // Initial greeting with delay
+        setTimeout(() => {
+            const welcomeMessage = document.createElement('div');
+            welcomeMessage.className = 'bot-message mb-4 flex';
+            welcomeMessage.innerHTML = `
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-robot text-blue-500"></i>
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
+                    <p class="text-gray-800">¿Necesitas ayuda para elegir? También puedes preguntar por marcas específicas o tus objetivos.</p>
+                </div>
+            `;
+            chatContainer.appendChild(welcomeMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 3000);
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=neufsoft/smoothiecol1" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</html>
