@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriAsistente Maka - Tu Guía de Suplementos</title>
+    <title>NutriAmigo Maka - Tu Asesor Personal de Suplementos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -27,16 +27,17 @@
             transition: all 0.3s ease;
         }
         .product-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
         }
         .cta-button {
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             transition: all 0.3s ease;
         }
         .cta-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .floating-cart {
+            animation: float 6s ease-in-out infinite;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -46,6 +47,11 @@
             from { opacity: 0; transform: translateX(10px); }
             to { opacity: 1; transform: translateX(0); }
         }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
         .typing-indicator span {
             display: inline-block;
             width: 8px;
@@ -54,53 +60,130 @@
             background-color: #6b7280;
             margin: 0 2px;
         }
+        .category-chip {
+            transition: all 0.2s ease;
+        }
+        .category-chip:hover {
+            transform: scale(1.05);
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
+    <!-- Floating Cart Button -->
+    <div class="fixed bottom-20 right-4 z-50">
+        <a href="https://www.tiendasmaka.com/carrito/" target="_blank" 
+           class="floating-cart bg-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-blue-600 hover:text-blue-700 transition-all">
+            <i class="fas fa-shopping-cart text-2xl"></i>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+    </div>
+
     <div class="container mx-auto max-w-md h-screen flex flex-col">
-        <!-- Header with CTA -->
-        <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-b-xl shadow-md relative">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3">
-                    <i class="fas fa-leaf text-blue-500 text-2xl"></i>
+        <!-- Enhanced Header with Friendly Tone -->
+        <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-b-xl shadow-lg relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3 heartbeat">
+                        <i class="fas fa-heart text-pink-500 text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">NutriAmigo Maka</h1>
+                        <p class="text-xs opacity-90">Tu asesor personal de suplementos</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold">NutriAsistente Maka</h1>
-                    <p class="text-xs opacity-80">Tu guía experta en suplementos</p>
+                <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-xs flex items-center">
+                    <i class="fas fa-magic text-yellow-300 mr-1"></i>
+                    <span>¡Te ayudo!</span>
                 </div>
             </div>
-            <a href="https://www.tiendasmaka.com/" target="_blank" 
-               class="absolute right-4 top-4 bg-white text-blue-600 text-xs font-bold py-1 px-3 rounded-full flex items-center hover:bg-blue-50 transition">
-                <i class="fas fa-store mr-1"></i> Visitar Tienda
-            </a>
+            
+            <div class="absolute right-4 top-4 flex space-x-2">
+                <a href="https://www.tiendasmaka.com/mi-cuenta/" target="_blank" 
+                   class="bg-white bg-opacity-20 w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-30 transition">
+                    <i class="fas fa-user text-sm"></i>
+                </a>
+                <a href="https://www.tiendasmaka.com/" target="_blank" 
+                   class="bg-white text-blue-600 text-xs font-bold py-1 px-3 rounded-full flex items-center hover:bg-blue-50 transition">
+                    <i class="fas fa-store mr-1"></i> Tienda
+                </a>
+            </div>
         </header>
 
+        <!-- Category Chips with Animated Icons -->
+        <div class="px-4 py-2 bg-white shadow-sm flex overflow-x-auto space-x-2 no-scrollbar">
+            <button onclick="quickQuestion('Quiero aumentar masa muscular')" class="category-chip flex-shrink-0 bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                <i class="fas fa-dumbbell mr-1 text-xs bounce"></i> Masa muscular
+            </button>
+            <button onclick="quickQuestion('Necesito bajar de peso')" class="category-chip flex-shrink-0 bg-red-50 text-red-600 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                <i class="fas fa-weight mr-1 text-xs bounce"></i> Bajar peso
+            </button>
+            <button onclick="quickQuestion('Quiero más energía')" class="category-chip flex-shrink-0 bg-yellow-50 text-yellow-600 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                <i class="fas fa-bolt mr-1 text-xs bounce"></i> Energía
+            </button>
+            <button onclick="quickQuestion('Mejorar digestión')" class="category-chip flex-shrink-0 bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                <i class="fas fa-leaf mr-1 text-xs bounce"></i> Digestión
+            </button>
+        </div>
+
         <!-- Chat Container -->
-        <div class="chat-container overflow-y-auto p-4 flex-1">
-            <div class="bot-message mb-4 flex">
+        <div class="chat-container overflow-y-auto p-4 flex-1 space-y-4">
+            <div class="bot-message flex">
                 <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-robot text-blue-500"></i>
+                    <i class="fas fa-smile text-blue-500"></i>
                 </div>
                 <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
-                    <p class="text-gray-800">¡Hola! Soy tu asistente de suplementos de <span class="font-bold text-blue-500">Tienda Maka</span>. ¿Qué producto necesitas hoy?</p>
+                    <p class="text-gray-800">¡Hola amigo! Soy tu NutriAmigo de <span class="font-bold text-blue-500">Tienda Maka</span>. Cuéntame, ¿qué objetivo quieres lograr hoy?</p>
                     <div class="mt-2 text-xs text-gray-500">
-                        <p>Ejemplos: "Proteína para aumentar masa", "Vitaminas para energía", "Quemadores naturales"</p>
+                        <p>Puedes preguntarme lo que necesites, desde cómo tomar un producto hasta crear un plan personalizado para ti.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Input Area with Quick Suggestions -->
+        <!-- Enhanced Input Area with Friendly Suggestions -->
         <div class="bg-white p-4 border-t border-gray-200">
             <div class="flex flex-wrap gap-2 mb-2">
-                <button onclick="quickQuestion('Proteína vegana')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Proteína vegana</button>
-                <button onclick="quickQuestion('Quemador de grasa')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Quemador de grasa</button>
-                <button onclick="quickQuestion('Vitaminas para energía')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Vitaminas</button>
-                <button onclick="quickQuestion('Pre-entreno')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition">Pre-entreno</button>
+                <button onclick="quickQuestion('¿Cómo tomar la fibra?')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition flex items-center">
+                    <i class="fas fa-question-circle mr-1"></i> Dudas de consumo
+                </button>
+                <button onclick="quickQuestion('Recomiéndame algo para...')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition flex items-center">
+                    <i class="fas fa-lightbulb mr-1"></i> Recomendación
+                </button>
+                <button onclick="quickQuestion('¿Cuál es la diferencia entre...?')" class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition flex items-center">
+                    <i class="fas fa-balance-scale mr-1"></i> Comparación
+                </button>
             </div>
-            <div class="flex items-center">
-                <input type="text" id="userInput" placeholder="Pregunta sobre suplementos..." 
-                    class="flex-1 border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="flex items-center relative">
+                <input type="text" id="userInput" placeholder="Pregúntame lo que necesites..." 
+                    class="flex-1 border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button id="voiceBtn" class="absolute right-12 text-gray-400 hover:text-blue-500">
+                    <i class="fas fa-microphone"></i>
+                </button>
                 <button id="sendBtn" class="ml-2 bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-blue-600 transition">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -109,122 +192,140 @@
     </div>
 
     <script>
-        // Enhanced knowledge base with Tienda Maka products
+        // Enhanced knowledge base with detailed guides
         const knowledgeBase = {
+            "fibra": {
+                response: "¡Excelente elección con la fibra! Es perfecta para mejorar tu digestión y ayudarte a sentirte más ligero. Te explico cómo sacarle el máximo provecho:",
+                guide: {
+                    title: "Guía de consumo de Fibra Natural Maka",
+                    steps: [
+                        {
+                            icon: "fas fa-sun",
+                            time: "Mañana",
+                            instruction: "Toma 1 cucharada (10g) en ayunas con un vaso grande de agua",
+                            benefit: "Activa tu sistema digestivo desde temprano"
+                        },
+                        {
+                            icon: "fas fa-utensils",
+                            time: "Almuerzo",
+                            instruction: "Mezcla 1 cucharada con tu jugo o batido favorito",
+                            benefit: "Ayuda a controlar el apetito en la tarde"
+                        },
+                        {
+                            icon: "fas fa-moon",
+                            time: "Noche",
+                            instruction: "1 cucharada antes de dormir con infusión caliente",
+                            benefit: "Promueve la limpieza intestinal durante la noche"
+                        }
+                    ],
+                    duration: "30 días (3 tarros)",
+                    results: "Notarás mejor digestión, menos hinchazón y control del apetito",
+                    tip: "Aumenta gradualmente la dosis y toma mucha agua"
+                },
+                product: {
+                    name: "Fibra Natural Plus",
+                    description: "Mezcla de fibras solubles e insolubles con prebióticos",
+                    price: "$59.900",
+                    link: "https://www.tiendasmaka.com/producto/fibra-natural/",
+                    image: "https://cdn-icons-png.flaticon.com/512/3058/3058979.png"
+                },
+                cta: {
+                    text: "¿Quieres que programemos recordatorios para tu consumo?",
+                    action: "schedule"
+                }
+            },
             "proteína": {
-                response: "Tenemos excelentes opciones de proteína en Tienda Maka:",
-                products: [
-                    {
-                        name: "Proteína Vegana Maka",
-                        description: "Proteína de guisante y arroz con aminoácidos completos, ideal para veganos",
-                        benefits: ["22g de proteína por servicio", "Libre de lácteos", "Fácil digestión"],
-                        price: "$89.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/proteina-vegana-maka-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/proteina-vegana-maka/"
-                    },
-                    {
-                        name: "Whey Protein Premium",
-                        description: "Proteína de suero de leche con bajo contenido de lactosa",
-                        benefits: ["24g de proteína por scoop", "5g de BCAA", "Sabores deliciosos"],
-                        price: "$129.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/whey-protein-premium-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/whey-protein-premium/"
-                    }
-                ],
-                cta: "¿Quieres comparar más opciones de proteínas? Visita nuestra categoría especial:",
-                ctaLink: "https://www.tiendasmaka.com/categoria-producto/proteinas/"
+                response: "¡Las proteínas son esenciales para tus músculos! Te cuento cómo integrarlas en tu rutina según tus objetivos:",
+                guide: {
+                    title: "Plan de Proteína Perfecta",
+                    steps: [
+                        {
+                            icon: "fas fa-dumbbell",
+                            time: "Post-entreno",
+                            instruction: "1 scoop (30g) mezclado con agua o leche vegetal",
+                            benefit: "Recuperación muscular inmediata"
+                        },
+                        {
+                            icon: "fas fa-bed",
+                            time: "Antes de dormir",
+                            instruction: "1/2 scoop de caseína con yogur griego",
+                            benefit: "Nutrición muscular durante la noche"
+                        }
+                    ],
+                    duration: "4-8 semanas para ver cambios notables",
+                    results: "Mayor definición muscular y mejor recuperación",
+                    tip: "Combínala con ejercicio regular y descanso adecuado"
+                },
+                product: {
+                    name: "Proteína Vegana Maka",
+                    description: "Completa en aminoácidos, fácil digestión y gran sabor",
+                    price: "$89.900",
+                    link: "https://www.tiendasmaka.com/producto/proteina-vegana/",
+                    image: "https://cdn-icons-png.flaticon.com/512/3048/3048373.png"
+                },
+                cta: {
+                    text: "¿Quieres que ajustemos las cantidades según tu peso?",
+                    action: "calculate"
+                }
             },
             "quemador": {
-                response: "Nuestros quemadores naturales más efectivos:",
-                products: [
-                    {
-                        name: "Termogénico Ultra",
-                        description: "Fórmula avanzada con cafeína natural y extractos termogénicos",
-                        benefits: ["Acelera metabolismo", "Suprime apetito", "Energía sostenida"],
-                        price: "$79.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/termogenico-ultra-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/termogenico-ultra/"
-                    },
-                    {
-                        name: "Green Burn Complex",
-                        description: "Combinación de té verde, guaraná y pimienta de cayena",
-                        benefits: ["Quema grasa natural", "Desintoxica", "Sin estimulantes fuertes"],
-                        price: "$65.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/green-burn-complex-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/green-burn-complex/"
-                    }
-                ],
-                cta: "Consulta nuestra guía completa sobre quemadores de grasa:",
-                ctaLink: "https://www.tiendasmaka.com/guia-quemadores-de-grasa/"
-            },
-            "vitamina": {
-                response: "Suplementos vitamínicos para mejorar tu energía y salud:",
-                products: [
-                    {
-                        name: "Multivitamínico Completo",
-                        description: "23 vitaminas y minerales esenciales en una cápsula",
-                        benefits: ["Refuerza sistema inmune", "Provee energía", "Piel y cabello saludable"],
-                        price: "$59.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/multivitaminico-completo-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/multivitaminico-completo/"
-                    },
-                    {
-                        name: "Vitamina D3 + K2",
-                        description: "Combinación esencial para huesos y sistema inmunológico",
-                        benefits: ["Absorción de calcio", "Salud ósea", "Regula sistema inmune"],
-                        price: "$45.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/vitamina-d3-k2-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/vitamina-d3-k2/"
-                    }
-                ],
-                cta: "Descubre nuestro test de deficiencias vitamínicas:",
-                ctaLink: "https://www.tiendasmaka.com/test-vitaminas/"
-            },
-            "pre-entreno": {
-                response: "Pre-entrenos para maximizar tu rendimiento:",
-                products: [
-                    {
-                        name: "Pre-Workout Explosive",
-                        description: "Fórmula con beta-alanina, creatina y citrulina malato",
-                        benefits: ["Energía explosiva", "Resistencia muscular", "Bombeo vascular"],
-                        price: "$99.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/pre-workout-explosive-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/pre-workout-explosive/"
-                    },
-                    {
-                        name: "Pump Extreme",
-                        description: "Sin estimulantes, enfoque en óxido nítrico y bombeo",
-                        benefits: ["Vasodilatación", "Recuperación rápida", "Sin crash energético"],
-                        price: "$85.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/pump-extreme-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/pump-extreme/"
-                    }
-                ],
-                cta: "¿No sabes cuál pre-entreno elegir? Responde nuestro cuestionario:",
-                ctaLink: "https://www.tiendasmaka.com/cuestionario-preentreno/"
+                response: "Los quemadores naturales pueden ser grandes aliados. Te explico cómo usarlos de forma segura y efectiva:",
+                guide: {
+                    title: "Protocolo para Quemadores",
+                    steps: [
+                        {
+                            icon: "fas fa-mug-hot",
+                            time: "Mañana",
+                            instruction: "1 cápsula con el desayuno (evita después de las 2pm)",
+                            benefit: "Acelera metabolismo desde temprano"
+                        },
+                        {
+                            icon: "fas fa-walking",
+                            time: "Pre-entreno",
+                            instruction: "1 cápsula 30 min antes de ejercicio (solo días activos)",
+                            benefit: "Maximiza quema de calorías"
+                        }
+                    ],
+                    duration: "Ciclos de 8 semanas con descansos",
+                    results: "Mejor definición y energía controlada",
+                    tip: "No consumir con el estómago vacío y mantener hidratación"
+                },
+                product: {
+                    name: "Termogénico Ultra Natural",
+                    description: "Fórmula con té verde, café verde y pimienta de cayena",
+                    price: "$79.900",
+                    link: "https://www.tiendasmaka.com/producto/termogenico-ultra/",
+                    image: "https://cdn-icons-png.flaticon.com/512/3123/3123628.png"
+                },
+                cta: {
+                    text: "¿Quieres que te ayude a calcular tu dosis ideal?",
+                    action: "calculate"
+                }
             },
             "default": {
-                response: "En Tienda Maka tenemos los mejores suplementos para tus necesidades. Te recomiendo:",
-                products: [
+                response: "Cuéntame más sobre lo que necesitas, ¿es para algún objetivo específico? Quiero recomendarte exactamente lo que te conviene.",
+                options: [
                     {
-                        name: "Pack Iniciación Fitness",
-                        description: "Todo lo que necesitas para comenzar tu transformación",
-                        benefits: ["Proteína + Creatina + Vitaminas", "Ahorra 15%", "Guía nutricional incluida"],
-                        price: "$249.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/pack-iniciacion-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/pack-iniciacion-fitness/"
+                        icon: "fas fa-heartbeat",
+                        text: "Mejorar mi salud general",
+                        query: "suplementos para salud general"
                     },
                     {
-                        name: "Omega 3 Ultra Pure",
-                        description: "Aceite de pescado molecularmente destilado",
-                        benefits: ["Alta concentración EPA/DHA", "Corazón y cerebro", "Antiinflamatorio"],
-                        price: "$69.900",
-                        image: "https://www.tiendasmaka.com/wp-content/uploads/2023/05/omega-3-ultra-pure-300x300.jpg",
-                        link: "https://www.tiendasmaka.com/producto/omega-3-ultra-pure/"
+                        icon: "fas fa-running",
+                        text: "Aumentar mi rendimiento",
+                        query: "suplementos para rendimiento deportivo"
+                    },
+                    {
+                        icon: "fas fa-balance-scale",
+                        text: "Controlar mi peso",
+                        query: "suplementos para control de peso"
+                    },
+                    {
+                        icon: "fas fa-brain",
+                        text: "Mejorar mi enfoque mental",
+                        query: "suplementos para concentración"
                     }
-                ],
-                cta: "Visita nuestra tienda para descubrir más productos premium:",
-                ctaLink: "https://www.tiendasmaka.com/"
+                ]
             }
         };
 
@@ -232,17 +333,18 @@
         const chatContainer = document.querySelector('.chat-container');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
 
-        // Add message to chat
+        // Add message to chat with friendly tone
         function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `${isUser ? 'user-message ml-auto flex-row-reverse' : 'bot-message mb-4 flex'}`;
             
             const iconDiv = document.createElement('div');
-            iconDiv.className = `w-10 h-10 ${isUser ? 'bg-blue-100' : 'bg-blue-100'} rounded-full flex items-center justify-center mr-3 flex-shrink-0`;
+            iconDiv.className = `w-10 h-10 ${isUser ? 'bg-blue-500' : 'bg-blue-100'} rounded-full flex items-center justify-center mr-3 flex-shrink-0`;
             
             const icon = document.createElement('i');
-            icon.className = `fas ${isUser ? 'fa-user text-blue-500' : 'fa-robot text-blue-500'}`;
+            icon.className = `fas ${isUser ? 'fa-user text-white' : 'fa-smile text-blue-500'}`;
             iconDiv.appendChild(icon);
             
             const textDiv = document.createElement('div');
@@ -256,53 +358,108 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // Generate product card with image and better CTA
-        function createProductCard(product) {
+        // Create consumption guide with animated icons
+        function createConsumptionGuide(guide, product) {
             return `
-                <div class="product-card bg-white p-3 rounded-xl shadow-md mb-3 border border-gray-100 overflow-hidden">
-                    <div class="flex">
-                        <div class="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden mr-3 flex-shrink-0">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-100">
+                    <h3 class="font-bold text-blue-600 text-center mb-3">${guide.title}</h3>
+                    
+                    <div class="space-y-4 mb-4">
+                        ${guide.steps.map(step => `
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="${step.icon} text-blue-500 bounce"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">${step.time}: ${step.instruction}</p>
+                                    <p class="text-xs text-gray-600">${step.benefit}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-lg p-3 mb-4">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-calendar-check text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium">Duración recomendada:</span>
                         </div>
-                        <div class="flex-1">
-                            <h3 class="font-bold text-blue-600 text-sm mb-1">${product.name}</h3>
-                            <p class="text-xs text-gray-600 mb-1">${product.description}</p>
-                            <p class="text-xs font-bold text-gray-800 mb-1">${product.price}</p>
-                            <div class="flex flex-wrap gap-1 mt-1">
-                                ${product.benefits.map(benefit => `
-                                    <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">${benefit}</span>
-                                `).join('')}
+                        <p class="text-xs">${guide.duration}</p>
+                        
+                        <div class="flex items-center mt-3 mb-2">
+                            <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium">Resultados esperados:</span>
+                        </div>
+                        <p class="text-xs">${guide.results}</p>
+                        
+                        <div class="flex items-center mt-3 mb-2">
+                            <i class="fas fa-lightbulb text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium">Tip experto:</span>
+                        </div>
+                        <p class="text-xs">${guide.tip}</p>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-3">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain">
+                            </div>
+                            <div>
+                                <p class="font-medium text-sm">${product.name}</p>
+                                <p class="text-xs text-gray-600">${product.description}</p>
+                                <p class="text-sm font-bold text-blue-600 mt-1">${product.price}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="flex mt-2 gap-2">
-                        <a href="${product.link}" target="_blank" 
-                            class="flex-1 text-center bg-blue-600 text-white text-xs py-1.5 px-2 rounded-lg hover:bg-blue-700 transition">
-                            <i class="fas fa-shopping-cart mr-1"></i> Comprar
-                        </a>
-                        <a href="https://wa.me/573125657156?text=Me%20interesa%20el%20producto%20${encodeURIComponent(product.name)}" 
-                            class="flex-1 text-center bg-green-500 text-white text-xs py-1.5 px-2 rounded-lg hover:bg-green-600 transition">
-                            <i class="fab fa-whatsapp mr-1"></i> Consultar
-                        </a>
+                </div>
+            `;
+        }
+
+        // Create friendly CTA with action
+        function createFriendlyCTA(cta, product) {
+            if (cta.action === "schedule") {
+                return `
+                    <div class="bg-blue-50 rounded-xl p-4 text-center mt-4">
+                        <p class="text-sm mb-3">${cta.text}</p>
+                        <button onclick="scheduleReminders()" class="cta-button inline-flex items-center text-white text-sm font-medium py-2 px-4 rounded-full mx-1">
+                            <i class="fas fa-bell mr-2"></i> Programar
+                        </button>
+                        <button onclick="showProductLink('${product.link}')" class="bg-white border border-blue-500 text-blue-500 text-sm font-medium py-2 px-4 rounded-full mx-1 hover:bg-blue-50">
+                            <i class="fas fa-info-circle mr-2"></i> Ver detalles
+                        </button>
+                    </div>
+                `;
+            } else if (cta.action === "calculate") {
+                return `
+                    <div class="bg-blue-50 rounded-xl p-4 text-center mt-4">
+                        <p class="text-sm mb-3">${cta.text}</p>
+                        <button onclick="calculateDosage()" class="cta-button inline-flex items-center text-white text-sm font-medium py-2 px-4 rounded-full mx-1">
+                            <i class="fas fa-calculator mr-2"></i> Calcular
+                        </button>
+                        <button onclick="showProductLink('${product.link}')" class="bg-white border border-blue-500 text-blue-500 text-sm font-medium py-2 px-4 rounded-full mx-1 hover:bg-blue-50">
+                            <i class="fas fa-info-circle mr-2"></i> Más info
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Create friendly options for default response
+        function createFriendlyOptions(options) {
+            return `
+                <div class="bg-white p-3 rounded-xl shadow-sm">
+                    <p class="text-sm text-gray-700 mb-3">Puedo ayudarte con:</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        ${options.map(option => `
+                            <button onclick="quickQuestion('${option.query}')" class="text-xs bg-blue-50 text-blue-600 px-3 py-2 rounded-lg hover:bg-blue-100 transition flex items-center">
+                                <i class="${option.icon} mr-2 text-sm"></i> ${option.text}
+                            </button>
+                        `).join('')}
                     </div>
                 </div>
             `;
         }
 
-        // Create CTA section
-        function createCTA(ctaText, ctaLink) {
-            return `
-                <div class="mt-3 text-center">
-                    <p class="text-xs text-gray-600 mb-2">${ctaText}</p>
-                    <a href="${ctaLink}" target="_blank" 
-                        class="cta-button inline-block text-white text-xs font-bold py-2 px-4 rounded-full">
-                        <i class="fas fa-arrow-right mr-1"></i> Ver más
-                    </a>
-                </div>
-            `;
-        }
-
-        // Process user input
+        // Process user input with friendly responses
         function processInput() {
             const inputText = userInput.value.trim().toLowerCase();
             if (!inputText) return;
@@ -315,7 +472,7 @@
             typingIndicator.className = 'bot-message mb-4 flex';
             typingIndicator.innerHTML = `
                 <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-robot text-blue-500"></i>
+                    <i class="fas fa-smile text-blue-500"></i>
                 </div>
                 <div class="bg-white p-3 rounded-xl shadow-sm w-24">
                     <div class="typing-indicator flex justify-center">
@@ -342,30 +499,30 @@
                 
                 addMessage(response.response, false);
                 
-                // Create products container
-                const productsDiv = document.createElement('div');
-                productsDiv.className = 'space-y-3 mt-2';
-                response.products.forEach(product => {
-                    productsDiv.innerHTML += createProductCard(product);
-                });
+                // Create response container
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'bot-message mb-4 flex';
                 
-                // Add CTA if exists
-                if (response.cta) {
-                    productsDiv.innerHTML += createCTA(response.cta, response.ctaLink);
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0';
+                iconDiv.innerHTML = '<i class="fas fa-smile text-blue-500"></i>';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'bg-white p-3 rounded-xl shadow-sm max-w-full w-full';
+                
+                if (response.guide && response.product) {
+                    contentDiv.innerHTML = createConsumptionGuide(response.guide, response.product);
+                    
+                    if (response.cta) {
+                        contentDiv.innerHTML += createFriendlyCTA(response.cta, response.product);
+                    }
+                } else if (response.options) {
+                    contentDiv.innerHTML = createFriendlyOptions(response.options);
                 }
                 
-                const botMessage = document.createElement('div');
-                botMessage.className = 'bot-message mb-4 flex';
-                botMessage.innerHTML = `
-                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                        <i class="fas fa-robot text-blue-500"></i>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
-                        ${productsDiv.outerHTML}
-                    </div>
-                `;
-                
-                chatContainer.appendChild(botMessage);
+                responseDiv.appendChild(iconDiv);
+                responseDiv.appendChild(contentDiv);
+                chatContainer.appendChild(responseDiv);
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }, 1500);
         }
@@ -376,22 +533,100 @@
             processInput();
         }
 
+        // Show product link after guidance
+        function showProductLink(link) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'bot-message mb-4 flex';
+            messageDiv.innerHTML = `
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-link text-blue-500"></i>
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
+                    <p class="text-sm mb-2">Aquí tienes el enlace para ver más detalles del producto:</p>
+                    <a href="${link}" target="_blank" class="text-blue-500 text-sm underline">Ver en Tienda Maka</a>
+                    <p class="text-xs text-gray-500 mt-2">¿Necesitas algo más? Estoy aquí para ayudarte.</p>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Schedule reminders function
+        function scheduleReminders() {
+            addMessage("¡Claro que sí! Vamos a programar tus recordatorios. ¿A qué horas prefieres tomarlo?", false);
+            
+            // Simulate calendar integration
+            setTimeout(() => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'bot-message mb-4 flex';
+                messageDiv.innerHTML = `
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                        <i class="fas fa-calendar-alt text-blue-500"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
+                        <p class="text-sm mb-3">He creado recordatorios para tu consumo. ¿Quieres agregarlos a tu calendario?</p>
+                        <a href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Tomar+Fibra+Natural+Maka&details=Recuerda+tomar+tu+dosis+de+fibra+para+mejorar+tu+digestión&location=En+casa" 
+                           target="_blank" class="cta-button inline-flex items-center text-white text-sm font-medium py-2 px-3 rounded-full">
+                            <i class="fab fa-google mr-2"></i> Agregar a Google Calendar
+                        </a>
+                        <p class="text-xs text-gray-500 mt-2">Después puedes ver el producto con más detalle.</p>
+                    </div>
+                `;
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1000);
+        }
+
+        // Calculate dosage function
+        function calculateDosage() {
+            addMessage("Perfecto, para calcular tu dosis ideal necesito saber tu peso actual. ¿Cuánto pesas actualmente?", false);
+            
+            // Simulate dosage calculation
+            setTimeout(() => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'bot-message mb-4 flex';
+                messageDiv.innerHTML = `
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                        <i class="fas fa-calculator text-blue-500"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
+                        <p class="text-sm mb-2">Basado en un peso de 70kg (puedes cambiarlo):</p>
+                        <p class="text-xs bg-blue-50 p-2 rounded-lg mb-3">Tu dosis ideal sería <span class="font-bold">1.5 cucharadas</span> por toma, 2 veces al día.</p>
+                        <p class="text-xs text-gray-600">Recuerda que esto es una recomendación general. ¿Quieres ajustar algo?</p>
+                    </div>
+                `;
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1000);
+        }
+
+        // Voice input (placeholder)
+        voiceBtn.addEventListener('click', () => {
+            voiceBtn.innerHTML = '<i class="fas fa-circle text-red-500 pulse"></i>';
+            setTimeout(() => {
+                voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                userInput.value = "Quiero saber cómo tomar la fibra";
+                processInput();
+            }, 2000);
+        });
+
         // Event listeners
         sendBtn.addEventListener('click', processInput);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') processInput();
         });
 
-        // Initial greeting with delay
+        // Initial friendly message with delay
         setTimeout(() => {
             const welcomeMessage = document.createElement('div');
             welcomeMessage.className = 'bot-message mb-4 flex';
             welcomeMessage.innerHTML = `
                 <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                    <i class="fas fa-robot text-blue-500"></i>
+                    <i class="fas fa-smile text-blue-500"></i>
                 </div>
                 <div class="bg-white p-3 rounded-xl shadow-sm max-w-xs">
-                    <p class="text-gray-800">¿Necesitas ayuda para elegir? También puedes preguntar por marcas específicas o tus objetivos.</p>
+                    <p class="text-gray-800">Estoy aquí para ayudarte a elegir los mejores suplementos y enseñarte cómo usarlos para que logres tus objetivos.</p>
+                    <p class="text-xs text-gray-500 mt-2">Pregúntame lo que necesites, sin compromiso.</p>
                 </div>
             `;
             chatContainer.appendChild(welcomeMessage);
